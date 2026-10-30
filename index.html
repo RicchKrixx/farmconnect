@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>FarmConnect Ghana – Buy fresh from Ghanaian farmers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/main.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Manrope', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            forest: '#173F35',
+                            green: '#5D8B52',
+                            terra: '#C97955',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+<!-- Header -->
+<header class="sticky top-0 z-50 glass border-b border-white/40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+            <a href="#top" class="flex items-center gap-2 text-2xl font-display font-bold text-brand-forest">
+                <i class="fa-solid fa-leaf text-brand-green"></i>
+                <span class="text-brand-green">FarmConnect</span>
+            </a>
+            
+
+            <div class="flex items-center gap-3">
+                <button id="ordBtn" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-slate-700 hover:text-brand-forest transition" title="Orders">
+                    <i class="fa-solid fa-box"></i>
+                </button>
+
+                <button id="cartBtn" class="px-5 py-2.5 rounded-full bg-brand-forest text-white font-semibold hover:bg-opacity-90 transition flex items-center gap-2 shadow-lg">
+                    <i class="fa-solid fa-cart-shopping"></i> <span class="hidden sm:inline">Cart</span> <span id="cartN" class="bg-white text-brand-forest px-2 py-0.5 rounded-full text-xs">0</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main id="top" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+    
+    <!-- Hero Section -->
+    <div class="glass rounded-3xl p-8 md:p-12 mb-12 flex flex-col md:flex-row items-center gap-10 shadow-2xl relative overflow-hidden">
+        <div class="flex-1 z-10">
+            <h1 class="text-4xl md:text-6xl font-display font-extrabold text-brand-forest leading-tight mb-6">
+                Good food starts with the people who grow it.
+            </h1>
+            <p class="text-lg text-slate-600 mb-8 max-w-xl">
+                Discover fresh products from Ghanaian farmers, compare prices, and buy directly from the source. Experience farm-to-table transparency.
+            </p>
+
+            <form class="flex flex-col sm:flex-row gap-3 w-full max-w-2xl" id="hero-search" onsubmit="event.preventDefault();applyHero()">
+                <div class="relative flex-grow">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input id="hq" type="search" placeholder="Search products, farms..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 bg-white/80 focus:ring-2 focus:ring-brand-green focus:border-brand-green outline-none transition">
+                </div>
+                <div class="relative sm:w-48">
+                    <i class="fa-solid fa-location-dot absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <select id="hloc" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 bg-white/80 focus:ring-2 focus:ring-brand-green outline-none appearance-none cursor-pointer">
+                        <option value="">All locations</option>
+                    </select>
+                </div>
+                <button type="submit" class="bg-brand-green text-white px-8 py-3 rounded-xl font-bold hover:bg-green-600 transition shadow-md">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Shop Section -->
+    <section id="shop" class="mb-16 scroll-mt-24">
+        <div class="flex flex-col md:flex-row justify-between md:items-center mb-6 gap-4 glass p-4 rounded-2xl">
+            <div>
+                <h2 class="text-3xl font-display font-bold text-brand-forest mb-1">Shop products <span style="font-size: large;" class="text-slate-500 font-small" id="count"></span></h2>
+            </div>
+            <div class="flex gap-3 w-full md:w-auto">
+                <button id="toggleFiltersBtn" class="flex-1 md:flex-none px-4 py-2 bg-white rounded-xl border border-slate-200 text-slate-700 font-medium hover:bg-slate-50 transition flex items-center justify-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-sliders"></i> Filters
+                </button>
+                <div class="relative flex-1 md:w-48">
+                    <select id="sort" class="w-full pl-4 pr-10 py-2 rounded-xl border border-slate-200 bg-white font-medium text-slate-700 appearance-none focus:ring-2 focus:ring-brand-green outline-none cursor-pointer shadow-sm">
+                        <option value="new">Newest</option>
+                        <option value="rel">Most relevant</option>
+                        <option value="pa">Price: low to high</option>
+                        <option value="pd">Price: high to low</option>
+                        <option value="name">Name A–Z</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <aside id="filterSidebar" class="hidden lg:w-72 flex-shrink-0">
+                <div class="glass p-6 rounded-2xl sticky top-28 space-y-5">
+                    <div class="flex items-center justify-between lg:hidden mb-2">
+                        <h3 class="font-bold text-lg">Filters</h3>
+                        <button id="closeFiltersMobile" class="text-slate-500 p-2"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Search</label>
+                        <input id="q" type="search" placeholder="Tomatoes..." class="w-full px-4 py-2 rounded-lg border border-slate-200 bg-white/70 focus:ring-2 focus:ring-brand-green outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Category</label>
+                        <select id="cat" class="w-full px-4 py-2 rounded-lg border border-slate-200 bg-white/70 focus:ring-2 focus:ring-brand-green outline-none"></select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Location</label>
+                        <select id="loc" class="w-full px-4 py-2 rounded-lg border border-slate-200 bg-white/70 focus:ring-2 focus:ring-brand-green outline-none"></select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Min GH₵</label>
+                            <input id="min" type="number" min="0" class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white/70 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Max GH₵</label>
+                            <input id="max" type="number" min="0" class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white/70 outline-none">
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-3 cursor-pointer p-2 rounded-lg hover:bg-white/50 transition">
+                        <input type="checkbox" id="avail" class="w-5 h-5 text-brand-green rounded border-slate-300 focus:ring-brand-green">
+                        <span class="font-medium text-slate-700">In stock only</span>
+                    </label>
+                    <button class="w-full py-2.5 rounded-xl border border-brand-forest text-brand-forest font-bold hover:bg-brand-forest hover:text-white transition" id="reset" type="button">Reset filters</button>
+                </div>
+            </aside>
+
+            <!-- Product Grid -->
+            <div class="flex-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="grid" aria-live="polite"></div>
+                <div class="text-center mt-10">
+                    <button class="px-8 py-3 glass-card rounded-full font-bold text-brand-forest border border-brand-forest/30 hover:border-brand-forest transition shadow-md" id="more" style="display:none;">
+                        Load more products
+                    </button>
+                </div>
+            </div>
+        </div>
+</section>
+
+<!-- Farmer Registration Card -->
+<section class="mb-12">
+    <div class="relative overflow-hidden rounded-3xl bg-brand-forest text-white p-8 md:p-12 shadow-xl">
+        <div class="absolute -right-12 -top-12 w-56 h-56 rounded-full bg-white/5"></div>
+        <div class="absolute -right-4 -bottom-20 w-64 h-64 rounded-full bg-white/5"></div>
+
+        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="max-w-2xl text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-white/90 text-sm font-semibold mb-5">
+                    <i class="fa-solid fa-seedling"></i>
+                    <span>FarmConnect Gh</span>
+                </div>
+
+                <h2 class="text-3xl md:text-4xl font-display font-extrabold leading-tight mb-4">
+                    Grow your business with FarmConnect.
+                </h2>
+
+                <p class="text-white/80 text-base md:text-lg leading-relaxed max-w-xl">
+                    Connect with more customers, showcase your farm produce, and make it easier for buyers to find your products.
+                </p>
+            </div>
+
+            <div class="flex-shrink-0">
+                <a href="contact.html"
+                   class="inline-flex items-center justify-center gap-3 px-7 py-4 rounded-xl bg-white text-brand-forest font-bold shadow-lg hover:bg-slate-100 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-solid fa-tractor text-lg"></i>
+                    Register as a Farmer
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="glass border-t border-white/40 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 py-8 text-center text-slate-600 font-medium text-sm">
+        <p>© 2026 FarmConnect Ghana · Accra, Ghana · hello@farmconnect.com</p>
+    </div>
+</footer>
+
+<!-- Cart Drawer -->
+<aside class="drawer fixed top-0 right-0 bottom-0 w-full max-w-md glass shadow-2xl z-[100] flex flex-col" id="drawer" aria-hidden="true">
+    <div class="p-6 border-b border-slate-200/50 flex justify-between items-center bg-white/50">
+        <h2 class="text-2xl font-display font-bold text-brand-forest flex items-center gap-2">
+            <i class="fa-solid fa-basket-shopping"></i> Your Cart
+        </h2>
+        <button id="closeCart" class="w-10 h-10 rounded-full bg-white text-slate-500 hover:text-red-500 hover:bg-red-50 transition flex items-center justify-center shadow-sm">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-6 space-y-4" id="items"></div>
+    <div class="p-6 border-t border-slate-200/50 bg-white/50">
+        <div id="tot" class="text-xl font-display font-bold text-brand-forest mb-4 flex justify-between"></div>
+        <button id="checkoutBtn" class="w-full py-4 rounded-xl bg-brand-forest text-white font-bold text-lg hover:bg-opacity-90 transition shadow-lg flex items-center justify-center gap-2">
+            Proceed to Checkout <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+</aside>
+
+<!-- Dialog / Modal -->
+<dialog id="dlg" class="glass rounded-3xl p-0 w-[95vw] max-w-lg shadow-2xl backdrop:bg-black/50 backdrop:backdrop-blur-sm open:animate-[fadeIn_0.2s_ease-out]">
+    <div class="p-6 sm:p-8" id="dlgBody"></div>
+</dialog>
+
+<!-- Toast Notification -->
+<div id="toast" class="fixed left-1/2 bottom-8 -translate-x-1/2 bg-brand-forest text-white px-6 py-3 rounded-xl shadow-2xl font-medium flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-4 pointer-events-none z-[110]">
+    <i class="fa-solid fa-circle-check text-brand-green"></i> <span id="toastMsg"></span>
+</div>
+<script src="/main.js"></script>
+<script>
+render();
+cartUI();
+</script>
+</body>
+</html>
